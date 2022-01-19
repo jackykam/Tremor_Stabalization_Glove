@@ -20,18 +20,20 @@ import pandas as pd
 
 col_list = []
 
-for i in range(0,14):
+for i in range(0,15):
     col_list.append('{}'.format(i+1))
 
 
 df = pd.read_csv("Data.csv", usecols=col_list)
 
-data1 = df[0:2]
 
-print(data1)
+clenchedfist = df[['1','2','3']].dropna()
+mughold = df[['4','5','6']].dropna()
+pouring = df[['7','8','9']].dropna()
+leftright = df[['10','11','12']].dropna()
+fingering = df[['13','14','15']].dropna()
 
-#X = df[['CH1']].values
-#y = df[['Tremor?']].values
+print(clenchedfist)
 
 
 
