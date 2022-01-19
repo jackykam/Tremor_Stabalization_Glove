@@ -4,7 +4,7 @@
 
 #libraries
 import sklearn
-from sklearn import train_test_split as tts;
+from sklearn.model_selection import train_test_split as tts;
 from sklearn import svm;
 
 import numpy as np
@@ -13,8 +13,33 @@ import pandas as pd
 #inputs
 #a -> accelerometer, ax ay az (normalized -1 to 1)
 #g -> gyrometer, gx, gy, gz (normalized -1 to 1)
-#m -> myoware, intensity input (normalized intensity 0 to 1)
+#m -> myoware, intensity input (normalized intensity 0 to 1), currently only this is available
 #data -> training set 
+
+#importing data file
+
+col_list = []
+
+for i in range(0,14):
+    col_list.append('{}'.format(i+1))
+
+
+df = pd.read_csv("Data.csv", usecols=col_list)
+
+data1 = df[0:2]
+
+print(data1)
+
+#X = df[['CH1']].values
+#y = df[['Tremor?']].values
+
+
+
+
+
+
+
+
 
 
 #outputs
