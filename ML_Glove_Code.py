@@ -3,9 +3,13 @@
 
 
 #libraries
+from ipaddress import collapse_addresses
+from sqlite3 import Row
+from tkinter import Y
 import sklearn
-from sklearn.model_selection import train_test_split as tts;
-from sklearn import svm;
+from sklearn.model_selection import train_test_split as tts
+from sklearn import svm
+from sklearn.metrics import accuracy_score
 
 import numpy as np
 import pandas as pd
@@ -18,28 +22,32 @@ import pandas as pd
 
 #importing data file
 
-col_list = []
+col_list = [f'{i+1}' for i in range(0,15)]
+df = pd.read_csv("Data.csv", usecols=col_list).drop(0)
 
-for i in range(0,15):
-    col_list.append('{}'.format(i+1))
+clenchedfist = df[['2','3']].dropna() #test sample
+mughold = df[['5','6']].dropna().rename(columns = {'5': '2', '6': '3'})
+pouring = df[['8','9']].dropna().rename(columns = {'8': '2', '9': '3'})
+leftright = df[['11','12']].dropna().rename(columns = {'11': '2', '12': '3'})
+fingering = df[['14','15']].dropna().rename(columns = {'14': '2', '15': '3'})
 
+frames = [clenchedfist, mughold, pouring, leftright, fingering]
 
-df = pd.read_csv("Data.csv", usecols=col_list)
+data = pd.concat(frames).dropna()
 
+X = data[['2']].astype(np.int32).to_numpy()
+y = data[['3']].astype(np.int32).to_numpy()
 
-clenchedfist = df[['1','2','3']].dropna()
-mughold = df[['4','5','6']].dropna()
-pouring = df[['7','8','9']].dropna()
-leftright = df[['10','11','12']].dropna()
-fingering = df[['13','14','15']].dropna()
+X_train, X_test, y_train, y_test = tts(X,y,test_size=0.2)
 
-print(clenchedfist)
+model = svm.SVC()
+model.fit(X_train, y_train.ravel())
 
+predictions = model.predict(X_test)
 
+acc = accuracy_score(y_test, predictions)
 
-
-
-
+print(f"Accuracy of model: {acc*100}%")
 
 
 
